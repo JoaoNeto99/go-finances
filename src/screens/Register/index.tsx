@@ -6,7 +6,7 @@ import {CategorySelectButton} from "../../components/Forms/CategorySelectButton"
 import {Alert, Keyboard, Modal, TouchableWithoutFeedback} from "react-native";
 import {CategorySelect} from "../CategorySelect";
 import {InputForm} from "../../components/Forms/InputForm";
-import {useForm} from "react-hook-form";
+import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
 import * as Yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
@@ -44,7 +44,7 @@ export function Register() {
         setCategoryModalOpen(true);
     }
 
-    function handleRegister(form: FormData ) {
+    function handleRegister(form: Partial<FormData> ) {
         if(!transctionType) {
             return Alert.alert("Selecione o tipo de transação");
         }
