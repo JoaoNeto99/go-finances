@@ -69,7 +69,7 @@ export const Icon = styled(Feather)`
 
 export const HightLightCards = styled.ScrollView.attrs({
     horizontal: true,
-    showsVerticalScrollIndicator: false,
+    showsHorizontalScrollIndicator: false,
     contentContainerStyle: {paddingHorizontal: 24},
 })`
   width: 100%;
@@ -97,3 +97,8 @@ export const TransactionList = styled(FlatList as new (props: FlatListProps<Data
         contentContainerStyle: {paddingBottom: getBottomSpace()}
     })``;
 
+export const LoadContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;

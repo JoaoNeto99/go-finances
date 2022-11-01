@@ -8,6 +8,9 @@ import {AppRoutes} from "./src/routes/routes";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import * as SplashScreen from 'expo-splash-screen';
 
+import "intl";
+import "intl/locale-data/jsonp/pt-BR";
+
 SplashScreen.preventAutoHideAsync().then();
 
 export default function App() {
