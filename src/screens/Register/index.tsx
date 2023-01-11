@@ -12,6 +12,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 import {useNavigation} from "@react-navigation/native";
+import {useAuth} from "../../hooks/auth";
 
 interface FormData {
     name: string;
@@ -40,6 +41,8 @@ export function Register() {
     const {control, handleSubmit, reset, formState: {errors}} = useForm({resolver: yupResolver(schema)})
 
     const navigation = useNavigation<NavigationProps>();
+
+    const {user} = useAuth()
 
     function handleTransactionTypeSelect(type: "positive" | "negative") {
         setTransactionType(type);
@@ -71,8 +74,10 @@ export function Register() {
             date: new Date()
         }
 
+        console.log(newTransaction)
+
         try {
-            const dataKey = "@gofinances:transactions";
+            const dataKey = `@gofinances:transactions_user:${user.id}`;
             const data = await AsyncStorage.getItem(dataKey);
             const currentData = data ? JSON.parse(data) : [];
 
@@ -124,7 +129,9 @@ export function Register() {
                             <TransactionTypeButton
                                 title={"Income"}
                                 type={"up"}
-                                onPress={() => handleTransactionTypeSelect('positive')}
+                                onPress={() => {
+                                    handleTransactionTypeSelect('positive')
+                                }}
                                 isActive={transactionType === 'positive'}
                             />
                             <TransactionTypeButton

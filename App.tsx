@@ -11,6 +11,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 import {StatusBar} from "react-native";
+import {SingIn} from "./src/screens/SingIn";
+import {AuthProvider, useAuth} from "./src/hooks/auth";
+import {Routes} from "./src/routes";
 
 SplashScreen.preventAutoHideAsync().then();
 
@@ -24,39 +27,28 @@ export default function App() {
         Poppins_700Bold
     });
 
+    const {userStorageLoading} = useAuth()
+
     useEffect(() => {
-        if (fontsLoaded) setAppIsReady(true);
-        setTimeout(() => {}, 2000)
+        if (fontsLoaded && !userStorageLoading) setAppIsReady(true);
+        setTimeout(() => {
+        }, 2000)
     }, [fontsLoaded]);
 
     if (appIsReady) {
         SplashScreen.hideAsync().then();
-    }
-
-    if (!appIsReady) {
+    } else {
         return null;
     }
 
     return (
         <GestureHandlerRootView style={{flex: 1}}>
             <ThemeProvider theme={theme}>
-                <NavigationContainer>
-                    <StatusBar barStyle={"light-content"}/>
-                    <AppRoutes/>
-                </NavigationContainer>
+                <StatusBar barStyle={"light-content"}/>
+                <AuthProvider>
+                    <Routes/>
+                </AuthProvider>
             </ThemeProvider>
         </GestureHandlerRootView>
     );
 }
-
-/*
-    const [fontsLoaded] = useFonts({
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_700Bold
-    });
-
-    if (!fontsLoaded) {
-        return <AppLoading/>
-    }
-*/
